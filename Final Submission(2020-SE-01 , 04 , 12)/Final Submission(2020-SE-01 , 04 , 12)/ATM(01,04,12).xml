@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+
+chan Cardinsert,SelectLanguage,PINInput,SelectCancel,validate,ChooseMenu,AmountSelected,SelectOption,Received,SelectBack;
+
+chan GivesCash,CardRead,GivesReceipt;
+
+</declaration>
+	<template>
+		<name>user</name>
+		<location id="id0" x="-595" y="-212">
+		</location>
+		<location id="id1" x="-595" y="-17">
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-603" y="8">SelectCancel!</label>
+			<nail x="-612" y="68"/>
+			<nail x="-569" y="59"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-586" y="-63">Cardinsert!</label>
+			<nail x="-578" y="-76"/>
+			<nail x="-544" y="-76"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-577" y="-42">SelectBack!</label>
+			<nail x="-510" y="-34"/>
+			<nail x="-510" y="-51"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-670" y="-51">Received!</label>
+			<nail x="-688" y="-51"/>
+			<nail x="-688" y="-51"/>
+			<nail x="-680" y="-68"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-705" y="-25">SelectOption!</label>
+			<nail x="-714" y="-17"/>
+			<nail x="-705" y="-34"/>
+			<nail x="-705" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-569" y="-17">AmountSelected!</label>
+			<nail x="-501" y="0"/>
+			<nail x="-501" y="-17"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-577" y="0">ChooseMenu!</label>
+			<nail x="-518" y="51"/>
+			<nail x="-510" y="25"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-705" y="17">PINInput!</label>
+			<nail x="-671" y="42"/>
+			<nail x="-637" y="50"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-748" y="-8">SelectLanguage!</label>
+			<nail x="-680" y="16"/>
+			<nail x="-697" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-595" y="-161">Cardinsert!</label>
+		</transition>
+	</template>
+	<template>
+		<name>CashDis</name>
+		<location id="id2" x="-85" y="-195">
+		</location>
+		<location id="id3" x="-85" y="-25">
+		</location>
+		<init ref="id2"/>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-76" y="-9">GivesCash?</label>
+			<nail x="-68" y="42"/>
+			<nail x="-93" y="51"/>
+		</transition>
+	</template>
+	<template>
+		<name>cardReader</name>
+		<location id="id4" x="-25" y="-204">
+		</location>
+		<location id="id5" x="-25" y="0">
+		</location>
+		<init ref="id4"/>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-59" y="76">CardRead?</label>
+			<nail x="0" y="76"/>
+			<nail x="0" y="76"/>
+			<nail x="-51" y="68"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">Screen</name>
+		<declaration>// Place local declarations here.
+clock time;
+int attempt=0,receipt=0;
+bool withdraw=false;</declaration>
+		<location id="id6" x="-2915" y="-867">
+			<name x="-2966" y="-901">InsertCard</name>
+		</location>
+		<location id="id7" x="-2685" y="-867">
+			<name x="-2720" y="-850">Language</name>
+		</location>
+		<location id="id8" x="-2464" y="-867">
+			<name x="-2474" y="-901">Password</name>
+		</location>
+		<location id="id9" x="-2277" y="-867">
+			<name x="-2287" y="-901">Menu</name>
+		</location>
+		<location id="id10" x="-2685" y="-1020">
+			<name x="-2762" y="-1037">EjectCard</name>
+		</location>
+		<location id="id11" x="-2685" y="-722">
+			<name x="-2728" y="-765">CardBlocked</name>
+		</location>
+		<location id="id12" x="-2091" y="-748">
+			<name x="-2117" y="-731">Balance</name>
+		</location>
+		<location id="id13" x="-2091" y="-867">
+			<name x="-2125" y="-850">Withdrawal</name>
+		</location>
+		<location id="id14" x="-1878" y="-867">
+			<name x="-1904" y="-850">Receipt</name>
+		</location>
+		<location id="id15" x="-2091" y="-646">
+			<name x="-2099" y="-629">Exit</name>
+		</location>
+		<location id="id16" x="-2915" y="-1139">
+			<name x="-2958" y="-1182">ReceiveCash</name>
+		</location>
+		<location id="id17" x="-2915" y="-1020">
+			<name x="-2958" y="-1011">ReceiveReceipt</name>
+		</location>
+		<init ref="id6"/>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id6"/>
+			<label kind="guard" x="-3043" y="-1071">receipt==0</label>
+			<nail x="-3034" y="-1020"/>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-2915" y="-960">Received?</label>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id17"/>
+			<label kind="guard" x="-2949" y="-1105">receipt==1</label>
+			<label kind="synchronisation" x="-2958" y="-1079">GivesReceipt!</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id16"/>
+			<label kind="guard" x="-2873" y="-1105">withdraw==true</label>
+			<label kind="synchronisation" x="-2832" y="-1088">GivesCash!</label>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="-2286" y="-1037">SelectOption?</label>
+			<label kind="assignment" x="-2278" y="-1011">receipt++</label>
+			<nail x="-1878" y="-1020"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-2201" y="-748">SelectBack?</label>
+			<nail x="-2218" y="-748"/>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-2210" y="-926">SelectBack?</label>
+			<nail x="-2091" y="-943"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="-2388" y="-943">SelectCancel?</label>
+			<nail x="-2380" y="-960"/>
+			<nail x="-2669" y="-1011"/>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id10"/>
+			<nail x="-1759" y="-646"/>
+			<nail x="-1759" y="-1147"/>
+			<nail x="-2686" y="-1147"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-2252" y="-671">ChooseMenu?</label>
+			<nail x="-2269" y="-646"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="-2728" y="-935">SelectCancel?</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="-1997" y="-739">SelectCancel?</label>
+			<nail x="-1793" y="-748"/>
+			<nail x="-1793" y="-1105"/>
+			<nail x="-2686" y="-1105"/>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="-2048" y="-892">AmountSelected?</label>
+			<label kind="assignment" x="-2031" y="-867">withdraw=true</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-2227" y="-867">ChooseMenu?</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-2634" y="-790">attempt&gt;3</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id8"/>
+			<label kind="guard" x="-2490" y="-790">attempt&lt;=3</label>
+			<label kind="assignment" x="-2490" y="-773">attempt++</label>
+			<nail x="-2413" y="-790"/>
+			<nail x="-2498" y="-790"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="-2575" y="-935">SelectCancel?</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="-2201" y="-816">ChooseMenu?</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id6"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id6"/>
+			<label kind="guard" x="-2839" y="-977">withdraw==false</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-2405" y="-892">CardRead!</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="-2643" y="-892">SelectLanguage?</label>
+			<label kind="assignment" x="-2626" y="-858">attempt=0</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-2804" y="-892">Cardinsert?</label>
+			<label kind="assignment" x="-2881" y="-867">receipt=0,withdraw=false</label>
+		</transition>
+	</template>
+	<template>
+		<name>eSlot</name>
+		<location id="id18" x="-68" y="-204">
+		</location>
+		<location id="id19" x="-68" y="-8">
+		</location>
+		<init ref="id18"/>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id19"/>
+			<label kind="synchronisation" x="-51" y="4">GivesReceipt?</label>
+			<nail x="-34" y="51"/>
+			<nail x="-93" y="76"/>
+			<nail x="-93" y="76"/>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id19"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+ATMScreen = Screen();
+User=user();
+CashDispenser=CashDis();
+CardReader=cardReader();
+EnvSlot=eSlot();
+// List one or more processes to be composed into a system.
+system ATMScreen,User,CashDispenser,CardReader,EnvSlot;   </system>
+	<queries>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment>There is no deadlock in our system.
+</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; ATMScreen.InsertCard == true</formula>
+			<comment>For all paths in our system, we will finally be able to insert the card again.(Liveness)</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; ATMScreen.EjectCard == true</formula>
+			<comment>There exist some paths in our system where we finally eject our card.(Reachability)</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; ATMScreen.Password == true</formula>
+			<comment>There exists a path in our system where we finally enter our password.(Safety)</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (ATMScreen.Password imply ATMScreen.Password == true)</formula>
+			<comment>There exist a path when you are on the password screen that it will again ask you to enter password.</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (ATMScreen.Password imply ATMScreen.CardBlocked == true)</formula>
+			<comment>There exist a path in our system where finally our card will be blocked.(Security)</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (ATMScreen.Password imply ATMScreen.Menu == true)</formula>
+			<comment>There exist a path when you are on the password screen that it will lead you to menu screen.</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; ATMScreen.Withdrawal == true</formula>
+			<comment>There exists a path when we will finally be able to enter withdawal amount.</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (ATMScreen.Withdrawal imply ATMScreen.EjectCard == true)</formula>
+			<comment>There exist a path where we receive our card after the amount is entered.</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (ATMScreen.EjectCard imply ATMScreen.ReceiveCash == true)</formula>
+			<comment>There exist a path where we receive our cash after the card is received.(Reachability)</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (ATMScreen.ReceiveCash imply ATMScreen.ReceiveReceipt == true)</formula>
+			<comment>There exist a path where we receive the receipt of transaction after the cash is received.</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; ATMScreen.ReceiveCash == true</formula>
+			<comment>There exists a path when we will finally be able to receive the cash required.</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (ATMScreen.ReceiveCash imply ATMScreen.InsertCard == true)</formula>
+			<comment>There exist a path where the system is again able to insert card after the cash is received.</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; ATMScreen.Balance == true</formula>
+			<comment>There exists a path where we can view the balance in our card.</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (ATMScreen.Withdrawal imply ATMScreen.Menu == true)</formula>
+			<comment>There exist a path where we go back to menu from the withdrawal screen </comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (ATMScreen.Balance imply ATMScreen.Menu == true)</formula>
+			<comment>There exist a path where we go back to menu after viewing the balance</comment>
+		</query>
+		<query>
+			<formula></formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>
